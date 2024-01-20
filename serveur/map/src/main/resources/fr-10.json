@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Paris",
+    "latitude": 48.8566,
+    "longitude": 2.3522,
+    "region": "Île-de-France",
+    "population": 2148271
+  },
+  {
+    "name": "Marseille",
+    "latitude": 43.2964,
+    "longitude": 5.37,
+    "region": "Provence-Alpes-Côte d’Azur",
+    "population": 868277
+  },
+  {
+    "name": "Lyon",
+    "latitude": 45.76,
+    "longitude": 4.84,
+    "region": "Auvergne-Rhône-Alpes",
+    "population": 518635
+  },
+  {
+    "name": "Toulouse",
+    "latitude": 43.6045,
+    "longitude": 1.444,
+    "region": "Occitanie",
+    "population": 486828
+  },
+  {
+    "name": "Nice",
+    "latitude": 43.7034,
+    "longitude": 7.2663,
+    "region": "Provence-Alpes-Côte d’Azur",
+    "population": 341032
+  },
+  {
+    "name": "Nantes",
+    "latitude": 47.2181,
+    "longitude": -1.5528,
+    "region": "Pays de la Loire",
+    "population": 314138
+  },
+  {
+    "name": "Montpellier",
+    "latitude": 43.6119,
+    "longitude": 3.8772,
+    "region": "Occitanie",
+    "population": 290053
+  },
+  {
+    "name": "Strasbourg",
+    "latitude": 48.5833,
+    "longitude": 7.7458,
+    "region": "Grand Est",
+    "population": 284677
+  },
+  {
+    "name": "Bordeaux",
+    "latitude": 44.84,
+    "longitude": -0.58,
+    "region": "Nouvelle-Aquitaine",
+    "population": 257068
+  },
+  {
+    "name": "Lille",
+    "latitude": 50.6278,
+    "longitude": 3.0583,
+    "region": "Hauts-de-France",
+    "population": 233098
+  }
+]
