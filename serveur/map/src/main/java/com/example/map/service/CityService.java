@@ -9,18 +9,13 @@ import java.util.List;
 @Service
 public class CityService {
 
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
-    public CityRepository getCityRepository() {
-        return cityRepository;
-    }
-
-    public void setCityRepository(CityRepository cityRepository) {
+    public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
 
     public List<City> getAllCities() {
         return cityRepository.findAll();
     }
-
 }
