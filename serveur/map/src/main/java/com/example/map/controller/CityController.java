@@ -3,12 +3,12 @@ package com.example.map.controller;
 import com.example.map.entity.City;
 import com.example.map.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+@Controller
 @RestController
 @RequestMapping("/cities")
 public class CityController {
@@ -21,7 +21,7 @@ public class CityController {
     }
 
     @GetMapping
-    public List<City> getAllCities() {
+    public @ResponseBody List<City> getCities() {
         return cityService.getAllCities();
     }
 }
