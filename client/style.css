@@ -37,7 +37,6 @@ h1 {
     color: #333;
     font-size: 48px;
     text-align: center;
-    margin-top: 0%;
 }
 
 h2 {
@@ -45,8 +44,8 @@ h2 {
     font-size: 30px;
     color: #333;
     font-family: 'Montserrat', sans-serif;
-    /*text-align: center;*/
-    /*margin-top: 1%;*/
+    text-align: center;
+    margin: 3%;
 }
 
 #main {
@@ -54,10 +53,10 @@ h2 {
     flex-direction: row;
 }
 
-#sub1 {
+#svg-container {
     width: 60%;
 }
 
-#sub2 {
+#filter {
     width: 40%;
 }
