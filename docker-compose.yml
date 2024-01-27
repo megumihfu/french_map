@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+    mysqldb:
+        image: mysql:8.3
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=french_map
+        ports:
+        - "3307:3306"
+        networks:
+        - map_net
+        volumes:
+            - db:/var/lib/mysql
+
+    springboot_app:
+        build: 
+            context: ./serveur
+        image: map_project
+        container_name: map_project_app
+        ports:
+        - "8080:8080"
+        depends_on:
+        - mysqldb
+        networks:
+        - map_net
+        volumes:
+            - ./serveur/map:/app
+
+    frontend_app:
+        build:
+            context: ./client
+        image: map_frontend
+        container_name: map_front_app
+        ports:
+        - "80:80"
+        networks:
+        - map_net
+
+networks:
+    map_net:
+
+volumes:
+    db:
