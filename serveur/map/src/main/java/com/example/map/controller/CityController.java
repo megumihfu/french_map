@@ -10,6 +10,7 @@ import java.util.List;
 
 @Controller
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/cities")
 public class CityController {
 

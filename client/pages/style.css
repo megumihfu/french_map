@@ -54,7 +54,8 @@ h2 {
 }
 
 #svg-map {
-    width: 60%;
+    width: 1000;
+    height: 700;
 }
 
 #svg-map path {
@@ -72,4 +73,8 @@ h2 {
     transition: fill 0.3s;
 }
 
-
+#circle {
+    fill: rgb(202, 68, 68);
+    stroke: black;
+    stroke-width: 1;
+}
