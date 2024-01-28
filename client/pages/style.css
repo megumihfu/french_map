@@ -53,10 +53,23 @@ h2 {
     flex-direction: row;
 }
 
-#svg-container {
+#svg-map {
     width: 60%;
 }
 
-#filter {
-    width: 40%;
+#svg-map path {
+    fill:rgb(168, 200, 241);
+    stroke: #ffffff;
+    transition: fill 0.3s;
 }
+
+#svg-map path:hover {
+    fill:rgb(85, 152, 240);
+}
+
+#list {
+    width: 40%;
+    transition: fill 0.3s;
+}
+
+
