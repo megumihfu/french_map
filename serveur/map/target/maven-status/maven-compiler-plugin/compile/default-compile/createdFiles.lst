@@ -1,0 +1,5 @@
+com\example\map\repository\CityRepository.class
+com\example\map\MapApplication.class
+com\example\map\controller\CityController.class
+com\example\map\entity\City.class
+com\example\map\service\CityService.class
