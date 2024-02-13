@@ -18,4 +18,13 @@ public class CityService {
     public List<City> getAllCities() {
         return cityRepository.findAll();
     }
+    public List<City> findAllCities() {
+        return cityRepository.findAll();
+    }
+
+    // Trouver les villes par nom de région
+    public List<City> findCitiesByRegion(String region) {
+        return cityRepository.findByRegion(region);
+    }
+
 }
