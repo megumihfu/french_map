@@ -68,7 +68,8 @@ function showUserLocation(position) {
     userLongitude = position.coords.longitude;
 
     // Appel à l'API de géolocalisation inversée pour obtenir le nom de la ville
-    fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${userLatitude}&lon=${userLongitude}&limit=1&appid=YOUR_API_KEY`)
+    fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${userLatitude}&lon=${userLongitude}&limit=1&appid=d4086e6a6b02ceb76c524da872107b58
+    `)
         .then(response => response.json())
         .then(data => {
             // Analyser la réponse pour obtenir le nom de la ville
@@ -106,6 +107,8 @@ fetch('http://localhost:8080/cities')
         let minLatitude = 41;
         let maxLatitude = 51;
 
+
+
         xScale = d3.scaleLinear()
             .domain([minLongitude, maxLongitude])
             .range([49, width]);
@@ -115,21 +118,32 @@ fetch('http://localhost:8080/cities')
             .range([height, 57]);
 
             svg.selectAll("circle")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("cx", d => xScale(d.longitude))
-            .attr("cy", d => yScale(d.latitude))
-            .attr("r", 3)
-            .attr("fill", "red")
-            .append("title")
-            .text(d => `${d.name}, ${d.region}, Population: ${d.population}`); // Assurez-vous que les données sont correctement utilisées ici
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.longitude))
+    .attr("cy", d => yScale(d.latitude))
+    .attr("r", 3)
+    .attr("fill", "red")
+    .on("click", function(d) {
+        // Récupérer les informations de la ville
+        const cityName = d.name;
+        const cityRegion = d.region;
+        const cityPopulation = d.population;
+        const cityDistance = calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude);
+
+        // Mettre à jour le contenu de l'élément city-info avec les informations de la ville
+        const cityInfoElement = document.getElementById('city-info2');
+        cityInfoElement.innerHTML = `
+            <h3>${cityName}</h3>
+            <p>Région: ${cityRegion}</p>
+            <p>Population: ${cityPopulation}</p>
+            <p>Distance: ${cityDistance} km</p>`;
     })
-    .catch(error => {
-        console.error('Erreur lors de la récupération des données:', error);
+    .append("title")
+    .text(d => `${d.name}, ${d.region}, Population: ${d.population},  Distance: ${calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude)} km`);
+
     });
-
-
 
 
 
@@ -226,5 +240,3 @@ function handleMapClick(event) {
 
 // Ajouter un gestionnaire de clic sur l'élément SVG pour gérer les clics sur la carte
 svg.on('click', handleMapClick);
-
-
