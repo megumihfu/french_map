@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Afficher le nom de la ville sur la page
                 const distanceElement = document.getElementById('user-distance');
                 if (distanceElement) {
-                    distanceElement.textContent = `Vous êtes à ${cityName}`;
+                    distanceElement.textContent = `Vous êtes à : ${cityName}`;
                     distanceElement.style.display = 'block';
                 } else {
                     console.error("L'élément user-distance n'existe pas dans le DOM.");
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .attr("cx", d => xScale(d.longitude))
                 .attr("cy", d => yScale(d.latitude))
                 .attr("r", 3)
-                .attr("fill", "red")
+                .attr("fill", "#FFFFCC")
                 .on("click", function(d) {
             // Récupérer les informations de la ville
             const cityName = d.name;
@@ -134,13 +134,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mettre à jour le contenu de l'élément city-info avec les informations de la ville
             const cityInfoElement = document.getElementById('city-info2');
             cityInfoElement.innerHTML = `
+                <h2>Information sur la ville sélectionnée </h2>
                 <h3>${cityName}</h3>
                 <p>Région: ${cityRegion}</p>
                 <p>Population: ${cityPopulation}</p>
                 <p>Distance: ${cityDistance} km</p>`;
         })
         .append("title")
-        .text(d => `${d.name}, ${d.region}, Population: ${d.population},  Distance: ${calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude)} km`);
+        .text(d => `${d.name}, ${d.region}, Population: ${d.population}`);
     
         });
     
@@ -171,7 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    d3.selectAll('path').on('click', handleRegionClick);
+    // d3.selectAll('path').on('click', handleRegionClick);
+    // var circle = d3.selectAll(".circle");
+
+    // circle.on("mouseenter", function() {
+    //     d3.select(this).attr("fill", "#FF0000");
+    // }) .on("mouseleave", function() {
+    //     d3.select(this).attr("fill", "#8B0000");
+    // });
 
     function updateCityList(cities) {
         const listElement = document.getElementById('list');
@@ -183,12 +191,12 @@ document.addEventListener('DOMContentLoaded', function() {
             citiesList.appendChild(cityItem);
         });
     }
-    
+
     document.getElementById('search-btn').addEventListener('click', function() {
         const cityName = document.getElementById('search-input').value;
         if (cityName) {
             // Supprimer tous les cercles bleus existants de la carte SVG
-            svg.selectAll("circle.blue-circle").remove();
+            svg.selectAll(".pin").remove();
     
             fetch(`http://localhost:8080/cities`)
                 .then(response => response.json())
@@ -204,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const distance = calculateDistance(userLatitude, userLongitude, city.latitude, city.longitude);
     
                     const cityInfoHTML = `
+                        <h2>Informations:</h2>
                         <h3>${city.name}</h3>
                         <p>Latitude: ${city.latitude}</p>
                         <p>Longitude: ${city.longitude}</p>
@@ -213,14 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     document.getElementById('city-info').innerHTML = cityInfoHTML;
     
-                    // Ajouter le nouveau cercle avec la classe blue-circle pour identifier les points bleus
                     const { x, y } = convertCoordinates(city.longitude, city.latitude, width, height);
-                    svg.append("circle")
-                        .attr("cx", xScale(city.longitude))
-                        .attr("cy", yScale(city.latitude))
-                        .attr("r", 3)
-                        .attr("fill", "blue")
-                        .classed("blue-circle", true) // Ajouter la classe blue-circle
+                        svg.append("path")
+                        .attr("d", "M12 0c-5.514 0-10 4.486-10 10 0 6.109 9.225 13.197 9.501 13.445.147.15.348.238.561.238s.414-.088.561-.238c.276-.248 9.439-7.336 9.439-13.445 0-5.514-4.486-10-10-10zm0 14c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5z")
+                        .attr("fill", "red")
+                        .classed("pin", true)
+                        .attr("transform", `translate(${xScale(city.longitude)}, ${yScale(city.latitude)})`)
                         .append("title")
                         .text(city.name);
     
