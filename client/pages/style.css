@@ -46,12 +46,12 @@ h2 {
     color: #333;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
-    margin: 3%;
+    margin: 5%;
 }
 
 h3 {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 20px;
     color: #333;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
@@ -63,44 +63,105 @@ h3 {
     flex-direction: row;
     justify-content: left;
     font-family: 'Montserrat', sans-serif;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 100%;
 }
 
 #list {
     width: 30%;
     justify-content: center;
     margin: 2%;
+    margin-left: 0%;
+    max-height: 70vh;
+    overflow-y: auto;
+
+    border-radius: 10px; /* Ajouter des coins arrondis pour un aspect moderne */
+    background-color: #f9f9f9; /* Couleur de fond */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ajouter une ombre douce pour un effet de profondeur */
+    border: 1px solid #ddd; /* Ajouter une bordure légère */
 }
 
-#circle {
-    fill: rgb(202, 68, 68);
-    stroke-width: 1;
+#results-heading { /* h2 */
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0;
+    padding: 4%;
+    margin: 0%;
+    background-color: rgb(255, 255, 255); 
 }
 
-#svg-map {
-    display: flex;
-    width: 60%;
-}
 
-#svg-map path {
-    fill:rgb(168, 200, 241);
-    stroke: #ffffff;
+.circle:hover {
+    fill:rgb(221, 211, 67);
+    stroke: rgb(221, 211, 67);
     transition: fill 0.3s;
 }
 
-#svg-map path:hover {
+#svg3811 {
+    display: flex;
+    justify-content: start;
+    width: 50%;
+    padding: 0%;
+    margin: 0%;
+}
+
+#svg3811 path {
+    fill:rgb(168, 200, 241);
+    stroke: #ffffff;
+    transition: fill 0.3s;
+    stroke-width: 0.7;
+}
+
+#svg3811 path:hover {
     fill:rgb(85, 152, 240);
+}
+
+#suggestions-list {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 28vw;
+    background-color: rgba(255, 255, 255, 0.897);
+    border: 1px solid #ccc;
+    border-radius: 3%;
+    border-top: none;
+    max-height: 50vh;
+    overflow-y: auto;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#suggestions-list li {
+    font-family: 'Montserrat', sans-serif;
+    list-style: none;
+    padding: 0.3vw 2vh;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#suggestions-list li:hover {
+    background-color: #f0f0f0; 
 }
 
 #city {
     display: flex;
-    align-self: start;;
-    margin: 2%;
+    width: 20%;
+    flex-direction: column;
+    margin: 1%;
 }
 
 #city-details {
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
     border-radius: 3%;
-    pointer-events: none; /
+    pointer-events: none; 
+}
+
+#city-info {
+    margin: 5%;
+}
+
+#city-info2 {
+   margin: 5%;
 }
 
 #citiesList {
@@ -109,7 +170,13 @@ h3 {
 }
 
 #citiesList li {
-    margin-bottom: 2%; 
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#citiesList li:hover {
+    background-color: #f0f0f0;
 }
 
 #research-bar {
@@ -117,12 +184,13 @@ h3 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(207, 211, 213, 0.87);
+    background: rgba(219, 221, 223, 0.692);
     mix-blend-mode: normal;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     width: 70%;
 }
+
 
 .search-form {
     display: flex;
@@ -139,11 +207,12 @@ h3 {
 
 #search-btn {
     display: flex;
+    font-family: 'Montserrat', sans-serif;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
-    padding-bottom: 30px;
-    padding-top: 15px;
+    font-size: 20px;
+    padding-bottom: 8%;
+    padding-top: 8%;
     margin: 2%;
     background: #D9D9D9;
     border: 1px solid #D9D9D9;
@@ -177,13 +246,13 @@ h3 {
 
 #population-filter {
     display : flex;
-    padding: 10px;
+    padding: 2%;
     border-radius: 5px;
     font-size: 16px;
     width: 14vw;
     background: #aeb2b4;
     border: 2px solid #aeb2b4;
-    border-radius: 6px;
+    border-radius: 1ch;
 }
 
 #distance-filter {
@@ -194,7 +263,7 @@ h3 {
     width: 14vw;
     background: #aeb2b4;
     border: 2px solid #aeb2b4;
-    border-radius: 6px;
+    border-radius: 1ch;
 }
 
 #user-distance {
@@ -204,15 +273,16 @@ h3 {
     width: 8%;
     padding: 1%;
     margin: 4%;
+    margin-left: 3%;
     background-color: #f1f1f1;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
-#svg-map .pin {
+#svg3811 .pin {
     fill: red;
 }
 
-#svg-map .pin:hover {
+#svg3811 .pin:hover {
     fill: rgb(128, 23, 23);
 }

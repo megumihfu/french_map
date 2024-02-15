@@ -27,6 +27,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const d = R * c;
         return d.toFixed(2); // distance arrondie à 2 décimales
     }
+
+    function displayAllCities() {
+        fetch('http://localhost:8080/cities')
+            .then(response => response.json())
+            .then(data => {
+                updateCityList(data); // Mettez à jour la liste des villes avec toutes les villes récupérées
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des villes:', error);
+            });
+    }
+
+    displayAllCities();
     
     // Récupérer la position de l'utilisateur
     function getUserLocation() {
@@ -36,31 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("La géolocalisation n'est pas prise en charge par ce navigateur.");
         }
     }
-    // Fonction pour récupérer la ville de l'utilisateur
-    // function getUserCity() {
-    //     // Appel à l'API de géolocalisation inversée de GeoNames pour obtenir le nom de la ville
-    //     fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?lat=${userLatitude}&lng=${userLongitude}&username=demo`)
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             // Analyser la réponse pour obtenir le nom de la ville
-    //             const cityName = data.geonames[0].name;
-    
-    //             // Afficher le nom de la ville sur la page
-    //             const userCityElement = document.getElementById('user-city');
-    //             if (userCityElement) {
-    //                 userCityElement.textContent = `Vous êtes à ${cityName}`;
-    //                 userCityElement.style.display = 'block';
-    //             } else {
-    //                 console.error("L'élément user-city n'existe pas dans le DOM.");
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Erreur lors de la récupération de la ville de l\'utilisateur:', error);
-    //         });
-    // }
-    
-    // Appel de la fonction pour récupérer la position de l'utilisateur
-    // getUserCity();
     
     // Afficher la position de l'utilisateur sur la carte
     function showUserLocation(position) {
@@ -75,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Analyser la réponse pour obtenir le nom de la ville
                 const cityName = data[0].name;
     
-                // Afficher le nom de la ville sur la page
+                // Afficher le nom de la ville
                 const distanceElement = document.getElementById('user-distance');
                 if (distanceElement) {
                     distanceElement.textContent = `Vous êtes à : ${cityName}`;
@@ -90,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    
     // Appel de la fonction pour récupérer la position de l'utilisateur
     getUserLocation();
     
@@ -98,11 +85,34 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             console.log('Données récupérées avec succès :', data);
-    
-            //const mainCities = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Montpellier", "Strasbourg", "Bordeaux", "Lille", "Rennes", "Reims", "Toulon", "Grenoble", "Dijon", "Angers"];
-            // const displayCities = data.filter(city => mainCities.includes(city.name));
-            // console.log(displayCities);
-    
+
+            const searchInput = document.getElementById('search-input');
+            const suggestionsList = document.getElementById('suggestions-list');
+
+            searchInput.addEventListener('input', function() {
+                const searchText = searchInput.value.toLowerCase();
+                const filteredCities = data.filter(city => city.name.toLowerCase().startsWith(searchText));
+
+                suggestionsList.innerHTML = '';
+
+                if (searchText.trim() !== '') {
+                    filteredCities.forEach(city => {
+                        const suggestionItem = document.createElement('li');
+                        suggestionItem.textContent = city.name;
+                        suggestionItem.addEventListener('click', function() {
+                            searchInput.value = city.name; // Remplit la barre de recherche avec le choix sélectionné
+                            suggestionsList.style.display = 'none'; // Cache la liste des suggestions
+                        });
+                        suggestionsList.appendChild(suggestionItem);
+                    });
+
+                    suggestionsList.style.display = 'block';
+                } else {
+                    suggestionsList.style.display = 'none';
+                }
+            });
+
+            
             let minLongitude = -5;
             let maxLongitude = 10;
             let minLatitude = 41;
@@ -124,17 +134,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 .attr("cy", d => yScale(d.latitude))
                 .attr("r", 3)
                 .attr("fill", "#FFFFCC")
+                .classed("circle", true)
                 .on("click", function(d) {
-            // Récupérer les informations de la ville
-            const cityName = d.name;
-            const cityRegion = d.region;
-            const cityPopulation = d.population;
-            const cityDistance = calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude);
-    
+                    const cityName = d.name;
+                    const cityRegion = d.region;
+                    const cityPopulation = d.population;
+                    const cityDistance = calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude);
+            
             // Mettre à jour le contenu de l'élément city-info avec les informations de la ville
             const cityInfoElement = document.getElementById('city-info2');
             cityInfoElement.innerHTML = `
-                <h2>Information sur la ville sélectionnée </h2>
+                <h2>Information de la ville sélectionnée sur la carte</h2>
                 <h3>${cityName}</h3>
                 <p>Région: ${cityRegion}</p>
                 <p>Population: ${cityPopulation}</p>
@@ -159,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 citiesInRegion.sort((a, b) => a.name.localeCompare(b.name));
     
                 const listElement = document.getElementById('list');
-                listElement.innerHTML = `<h2>Villes en ${regionName}</h2><ul id="citiesList"></ul>`;
+                listElement.innerHTML = `<h2 id="results-heading">Villes en ${regionName}</h2><ul id="citiesList"></ul>`;
                 const citiesList = document.getElementById('citiesList');
                 citiesInRegion.forEach(city => {
                     const cityItem = document.createElement('li');
@@ -172,24 +182,54 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // d3.selectAll('path').on('click', handleRegionClick);
-    // var circle = d3.selectAll(".circle");
+    d3.selectAll('path').on('click', handleRegionClick);
+    var circle = d3.selectAll(".circle");
 
-    // circle.on("mouseenter", function() {
-    //     d3.select(this).attr("fill", "#FF0000");
-    // }) .on("mouseleave", function() {
-    //     d3.select(this).attr("fill", "#8B0000");
-    // });
+    circle.on("mouseenter", function() {
+        d3.select(this).attr("fill", "#FF0000");
+    }) .on("mouseleave", function() {
+        d3.select(this).attr("fill", "#8B0000");
+    });
 
     function updateCityList(cities) {
         const listElement = document.getElementById('list');
-        listElement.innerHTML = `<h2>Résultats de la recherche</h2><ul id="citiesList"></ul>`;
+        listElement.innerHTML = `<h2 id="results-heading">Résultats de la recherche</h2><ul id="citiesList"></ul>`;
         const citiesList = document.getElementById('citiesList');
+
         cities.forEach(city => {
             const cityItem = document.createElement('li');
             cityItem.textContent = city.name;
+            cityItem.addEventListener('click', function() {
+                addCityMarker(city); // Ajouter un marqueur sur la carte
+                displayCityInfo(city); // Afficher les informations de la ville
+            });
             citiesList.appendChild(cityItem);
         });
+    }
+
+    function displayCityInfo(city) {
+        const cityInfoElement = document.getElementById('city-info2');
+        const cityDistance = calculateDistance(userLatitude, userLongitude, city.latitude, city.longitude);
+
+        cityInfoElement.innerHTML = `
+            <h2>Informations de la ville sélectionnée</h2>
+            <h3>${city.name}</h3>
+            <p>Région: ${city.region}</p>
+            <p>Population: ${city.population}</p>
+            <p>Distance: ${cityDistance} km</p>
+        `;
+    }
+
+    function addCityMarker(city) {
+        svg.selectAll(".pin").remove(); // Supprimez tous les marqueurs existants
+
+        svg.append("path")
+            .attr("d", "M12 0c-5.514 0-10 4.486-10 10 0 6.109 9.225 13.197 9.501 13.445.147.15.348.238.561.238s.414-.088.561-.238c.276-.248 9.439-7.336 9.439-13.445 0-5.514-4.486-10-10-10zm0 14c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5z")
+            .attr("fill", "red")
+            .classed("pin", true) 
+            .attr("transform", `translate(${xScale(city.longitude) - 12}, ${yScale(city.latitude) - 24})`) // Ajustez la position si nécessaire
+            .append("title")
+            .text(city.name);
     }
 
     document.getElementById('search-btn').addEventListener('click', function() {
@@ -212,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const distance = calculateDistance(userLatitude, userLongitude, city.latitude, city.longitude);
     
                     const cityInfoHTML = `
-                        <h2>Informations:</h2>
+                        <h2>Informations de la ville recherchée </h2>
                         <h3>${city.name}</h3>
                         <p>Latitude: ${city.latitude}</p>
                         <p>Longitude: ${city.longitude}</p>
@@ -266,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
     
                     console.log(filteredCities)
-                    // Mettre à jour l'affichage avec les résultats filtrés
                     updateCityList(filteredCities);
                 })
                 .catch(error => {
