@@ -1,0 +1,35 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  MYSQL_ROOT_PASSWORD: root
+  MYSQL_DATABASE: french_map
+  SPRING_PROFILES_ACTIVE: docker
+
+build:
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  stage: build
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/springboot_app ./serveur
+    - docker build -t $CI_REGISTRY_IMAGE/frontend_app ./client
+    - docker push $CI_REGISTRY_IMAGE/springboot_app
+    - docker push $CI_REGISTRY_IMAGE/frontend_app
+  only:
+    - version_finale_1.0
+
+deploy:
+  image: docker:19.03.12
+  services:
+    - docker:19.03.12-dind
+  stage: deploy
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE/springboot_app
+    - docker pull $CI_REGISTRY_IMAGE/frontend_app
+    - docker-compose up -d
+  only:
+    - version_finale_1.0
