@@ -17,7 +17,7 @@ services:
         command: ["--init-file", "/docker-entrypoint-initdb.d/init_db.sql"]
 
     springboot_app:
-        build: 
+        build:
             context: ./serveur
         image: map_project
         container_name: map_project_app
