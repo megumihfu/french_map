@@ -12,9 +12,12 @@ services:
         - map_net
         volumes:
             - db:/var/lib/mysql
+            - ./serveur/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+            - ./serveur/fr2.csv:/var/lib/mysql-files/fr2.csv
+        command: ["--init-file", "/docker-entrypoint-initdb.d/init_db.sql"]
 
     springboot_app:
-        build: 
+        build:
             context: ./serveur
         image: map_project
         container_name: map_project_app
