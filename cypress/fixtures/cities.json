@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "name": "Paris",
+      "region": "Île-de-France",
+      "population": 2148271
+    },
+    {
+      "id": 2,
+      "name": "Lyon",
+      "region": "Auvergne-Rhône-Alpes",
+      "population": 506615
+    },
+    {
+      "id": 3,
+      "name": "Marseille",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "population": 861635
+    },
+    {
+      "id": 4,
+      "name": "Toulouse",
+      "region": "Occitanie",
+      "population": 466297
+    },
+    {
+      "id": 5,
+      "name": "Nice",
+      "region": "Provence-Alpes-Côte d'Azur",
+      "population": 341032
+    }
+  ]
