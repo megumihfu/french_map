@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .attr("width", width)
         .attr("height", height);
     
-    // Fonction pour calculer la distance entre deux points géographiques en kilomètres
     function calculateDistance(lat1, lon1, lat2, lon2) {
         const R = 6371; // rayon de la Terre en km
         const dLat = (lat2 - lat1) * (Math.PI / 180);
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('http://localhost:8080/cities')
             .then(response => response.json())
             .then(data => {
-                updateCityList(data); // Mettez à jour la liste des villes avec toutes les villes récupérées
+                updateCityList(data); 
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des villes:', error);
@@ -78,8 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Appel de la fonction pour récupérer la position de l'utilisateur
+    // Appel de la fonction pour récupérer la loc de l'user
     getUserLocation();
+
+    function displayCityInfoAndAddMarker(city) {
+        displayCityInfo(city); 
+        addCityMarker(city); 
+    }
     
     fetch('http://localhost:8080/cities')
         .then(response => response.json())
@@ -141,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const cityPopulation = d.population;
                     const cityDistance = calculateDistance(userLatitude, userLongitude, d.latitude, d.longitude);
             
-            // Mettre à jour le contenu de l'élément city-info avec les informations de la ville
+            // Mettre à jour le contenu de l'élément city-info avec les infos de la ville
             const cityInfoElement = document.getElementById('city-info2');
             cityInfoElement.innerHTML = `
                 <h2>Information de la ville sélectionnée sur la carte</h2>
@@ -154,7 +158,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .text(d => `${d.name}, ${d.region}, Population: ${d.population}`);
     
         });
-    
+
+    function handleCityClick(city) {
+        return function() {
+            displayCityInfoAndAddMarker(city); 
+        };
+    }
     
     function handleRegionClick(d) {
         const event = d3.event;
@@ -162,27 +171,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const regionName = event.target.getAttribute('name');
     
         fetch(`http://localhost:8080/cities?region=${regionName}`)
-            .then(response => response.json())
-            .then(allCities => {
-                console.log(allCities)
-                const citiesInRegion = allCities.filter(city => city.region === regionName);
-                citiesInRegion.sort((a, b) => a.name.localeCompare(b.name));
-    
-                const listElement = document.getElementById('list');
-                listElement.innerHTML = `<h2 id="results-heading">Villes en ${regionName}</h2><ul id="citiesList"></ul>`;
-                const citiesList = document.getElementById('citiesList');
-                citiesInRegion.forEach(city => {
-                    const cityItem = document.createElement('li');
-                    cityItem.textContent = city.name;
-                    citiesList.appendChild(cityItem);
-                });
-            })
+        .then(response => response.json())
+        .then(allCities => {
+            console.log(allCities);
+            const citiesInRegion = allCities.filter(city => city.region === regionName);
+            citiesInRegion.sort((a, b) => a.name.localeCompare(b.name));
+
+            const listElement = document.getElementById('list');
+            listElement.innerHTML = `<h2 id="results-heading">Villes en ${regionName}</h2><ul id="citiesList"></ul>`;
+            const citiesList = document.getElementById('citiesList');
+            citiesInRegion.forEach(city => {
+                const cityItem = document.createElement('li');
+                cityItem.textContent = city.name;
+                cityItem.addEventListener('click', handleCityClick(city)); 
+                citiesList.appendChild(cityItem);
+            });
+        })
             .catch(error => {
                 console.error('Erreur lors de la récupération des villes:', error);
             });
     }
     
     d3.selectAll('path').on('click', handleRegionClick);
+
     var circle = d3.selectAll(".circle");
 
     circle.on("mouseenter", function() {
@@ -200,8 +211,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const cityItem = document.createElement('li');
             cityItem.textContent = city.name;
             cityItem.addEventListener('click', function() {
-                addCityMarker(city); // Ajouter un marqueur sur la carte
-                displayCityInfo(city); // Afficher les informations de la ville
+                addCityMarker(city); // Ajoute un pin sur la carte
+                displayCityInfo(city); // Afficher les infos de la ville
             });
             citiesList.appendChild(cityItem);
         });
@@ -221,13 +232,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addCityMarker(city) {
-        svg.selectAll(".pin").remove(); // Supprimez tous les marqueurs existants
+        svg.selectAll(".pin").remove(); // Supprime les pins
 
         svg.append("path")
             .attr("d", "M12 0c-5.514 0-10 4.486-10 10 0 6.109 9.225 13.197 9.501 13.445.147.15.348.238.561.238s.414-.088.561-.238c.276-.248 9.439-7.336 9.439-13.445 0-5.514-4.486-10-10-10zm0 14c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5z")
             .attr("fill", "red")
             .classed("pin", true) 
-            .attr("transform", `translate(${xScale(city.longitude) - 12}, ${yScale(city.latitude) - 24})`) // Ajustez la position si nécessaire
+            .attr("transform", `translate(${xScale(city.longitude) - 12}, ${yScale(city.latitude) - 24})`) 
             .append("title")
             .text(city.name);
     }
@@ -235,7 +246,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('search-btn').addEventListener('click', function() {
         const cityName = document.getElementById('search-input').value;
         if (cityName) {
-            // Supprimer tous les cercles bleus existants de la carte SVG
             svg.selectAll(".pin").remove();
     
             fetch(`http://localhost:8080/cities`)
@@ -276,8 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
                     let filteredCities = data;
 
-    
-                    // Filtrer par population si une option est sélectionnée
+                    // Filtrer par population
                     if (populationFilter !== "0") {
                         const [minPopulation, maxPopulation] = populationFilter.split("-");
                         console.log("minPopulation " + minPopulation)
@@ -296,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log("15000+=", filteredCities);
                     }
     
-                    // Filtrer par distance si une option est sélectionnée
+                    // Filtrer par distance
                     if (distanceFilter !== 0) {
                         const cityPosition = { latitude: city.latitude, longitude: city.longitude };
                         filteredCities = filteredCities.filter(city => {
