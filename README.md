@@ -43,7 +43,7 @@ Et enfin, vous aurez accès à notre application sur le lien suivant : ``http://
 
 
 ## Choix architecturaux justifiés
-Comme demandé dans les consignes du projet, nous avons donc utilisé une architecture à microservices, avec un front-end séparé du back-end pour garantir une meilleure maintenabilité de l'application. Cette approche permet également une séparation claire des préoccupations entre les différentes parties de l'application, ce qui facilite le développement étant donné que nous travaillons par binôme. 
+Nous avons donc utilisé une architecture à microservices, avec un front-end séparé du back-end pour garantir une meilleure maintenabilité de l'application. Cette approche permet également une séparation claire des préoccupations entre les différentes parties de l'application, ce qui facilite le développement étant donné que nous travaillons par binôme. 
 Nous avons utilisé Docker et docker-compose pour la conteneurisation pour être sûr que notre application fonctionne correctement peu importe l'appareil utilisé. 
 
 ## Langages, technologies, packages et middlewares utilisés
@@ -61,17 +61,21 @@ Nous avons utilisé les technologies suivantes :
 
 ## Avons nous pu respecter notre architecture initiale ?
 
-1. Respect de l'architecture initiale
+1. Respect de l'architecture initiale   
+
 Nous avons réussi à respecter notre architecture initiale dans l'ensemble, en maintenant une séparation comme demandé par l'énnoncé entre le front et le back, et en utilisant les différents outils conseillés.
 Nous avons exploré diverses technologies qui étaient assez nouvelles pour nous, comme l'utilisation de Docker pour la conteneurisation, la création d'une API REST avec Spring Boot, et l'intégration de la librairie D3.js pour la visualisation des données géographiques.
 
-2. Les bonus UI/UX
+2. Les bonus UI/UX   
+
 Nous avons fait en sorte de répondre aux maximums des points pour que l'expérience utilisateur en fournissant une interface intuitive et conviviale. Nous avons utilisé les fonctionnalités de D3.js pour rendre la visualisation des données géographiques attrayante et interactive, ce qui améliore l'engagement et la satisfaction de l'utilisateur.
 
-3. Encore plus de bonus ?
+3. Encore plus de bonus ?    
+
 Nous avons également exploré des solutions alternatives pour améliorer notre application. Par exemple, nous avons envisagé d'utiliser Docker Hub pour le partage d'image, mais il nous était plus simple de continuer sur notre idée de base.
 
-4. Améliorations envisagées
+4. Améliorations envisagées   
+
 Nous nous sommes rendu compte malheureusement tardivement que l'utilisation de la base de données SQLite aurait été préférable étant donné que nous n'avons pas besoin de l'initialiser comme nous devons le faire avec notre BDD MySQL.
 Nous aimerions également optimiser les performances de l'application en optimisant les requêtes et les opérations dela BDD, et en mettant en oeuvre des techniques de mise en cache pour réduire les temps de réponse. De plus, on aurait renforcé la sécurité de l'application en utilisant par exemple Docker Secret. Nous aurions dès le début configurer le CI de GitLab pour pouvoir tester régulièrement le fonctionnement de notre projet car il nous est déjà arrivé malheureusement de faire des commits qui n'étaient pas dans la continuité fonctionnelle de notre application. 
 Et enfn côté front, cela aurait été intéressant de commencer à utiliser des nouvelles technologies comme React. 
