@@ -21,6 +21,7 @@
 		<!-- Utilisez <release> si vous utilisez Maven 3.8+ -->
 		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
+	
 
 	<dependencies>
 		<dependency>

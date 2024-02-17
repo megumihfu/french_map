@@ -1,0 +1,29 @@
+@startuml
+!define SPRING_BOOT_SPRING
+!includeurl https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "Utilisateur", "Un utilisateur de l'application de carte des villes.")
+ContainerDb(mysqldb, "MySQL Database", "MySQL", "Stocke les données des villes.", "Conteneur Docker")
+Container(springboot_app, "Spring Boot App", "Spring Boot", "Fournit l'API RESTful pour interagir avec les données des villes.", "Conteneur Docker")
+Container(frontend_app, "Frontend App", "HTML/CSS/JS", "Permet aux utilisateurs d'interagir avec la carte des villes via une interface graphique.", "Conteneur Docker")
+
+Rel(user, frontend_app, "Utilise", "HTTP")
+Rel(frontend_app, springboot_app, "Envoie des requêtes API à", "HTTP")
+Rel(springboot_app, mysqldb, "Se connecte à", "JDBC")
+
+System_Boundary(c1, "Map Project") {
+    Container(springboot_app, "Spring Boot Application", "Spring Boot", "Fournit l'API RESTful.")
+    ContainerDb(mysqldb, "MySQL Database", "MySQL", "Stocke les informations sur les villes et régions.")
+}
+
+System_Boundary(c2, "Client Web") {
+    Container(frontend_app, "Frontend Application", "Nginx", "Sert l'application client pour les navigateurs web.")
+}
+
+Rel_D(user, frontend_app, "Utilise", "HTTP")
+Rel_D(frontend_app, springboot_app, "Envoie des requêtes API", "HTTP")
+Rel_D(springboot_app, mysqldb, "Lis et écrit dans", "JDBC")
+
+@enduml

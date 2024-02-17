@@ -1,0 +1,29 @@
+{
+  "name": "carte_fr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.test.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.esiea.fr/daffef/carte_fr.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  },
+  "dependencies": {
+    "d3": "^7.8.5"
+  }
+}
