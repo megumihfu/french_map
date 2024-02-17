@@ -17,6 +17,8 @@ build_app:
   image: docker:19.03.12
   services:
     - docker:19.03.12-dind
+  before_script:
+    - apk add --no-cache docker-compose
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker-compose -f docker-compose.yml build
@@ -33,3 +35,5 @@ deploy_app:
     - docker-compose -f docker-compose.yml up -d
   only:
     - branche_de_test
+
+# Add any additional configurations below
