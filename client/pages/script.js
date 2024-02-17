@@ -25,7 +25,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const d = R * c;
-    return d.toFixed(2); // distance arrondie à 2 décimales
+    return d.toFixed(2); 
 }
 
 if (typeof module !== 'undefined') {

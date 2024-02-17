@@ -39,5 +39,4 @@ describe('Script Functions', () => {
   });
 
 
-  // Ajoutez plus de tests pour chaque scénario que vous souhaitez couvrir
 });
