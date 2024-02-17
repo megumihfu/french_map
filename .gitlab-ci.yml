@@ -10,7 +10,7 @@ test_app:
     - npm install
     - npm test
   only:
-    - main
+    - branche_de_test
 
 build_app:
   stage: build
@@ -21,7 +21,7 @@ build_app:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker-compose -f docker-compose.yml build
   only:
-    - main
+    - branche_de_test
 
 deploy_app:
   stage: deploy
@@ -32,4 +32,4 @@ deploy_app:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker-compose -f docker-compose.yml up -d
   only:
-    - main
+    - branche_de_test
