@@ -2,7 +2,7 @@
   "name": "carte_fr",
   "version": "1.0.0",
   "description": "**Projet Architecture d'Application**      **DAFFEF Inès & MEDDOUR Yan**       **Classe 48 - FISA** **ESIEA - Campus de Paris**",
-  "main": "cypress.config.js",
+  "main": "script.test.js",
   "directories": {
     "doc": "docs"
   },
